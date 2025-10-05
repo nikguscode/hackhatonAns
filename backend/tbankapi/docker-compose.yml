@@ -1,0 +1,63 @@
+#networks:
+#  app-net:
+#    name: susuhelper-net
+#    driver: bridge
+
+services:
+  api-db:
+    image: postgres:17.5
+    container_name: api-db
+    restart: always
+    #    command: postgres -c "timezone=Asia/Yekaterinburg"
+    command: postgres -c "timezone=Asia/Yekaterinburg" -c log_statement=all -c log_min_error_statement=error -c log_min_messages=debug1
+    env_file:
+      - ./.env
+    environment:
+      - POSTGRES_USER=${API_POSTGRES_USER}
+      - POSTGRES_PASSWORD=${API_POSTGRES_PASSWORD}
+      - POSTGRES_DB=${API_POSTGRES_DB}
+    ports:
+      - "5434:5432"
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${API_POSTGRES_USER} -d ${API_POSTGRES_DB}" ]
+      interval: 20s
+      retries: 5
+      start_period: 10s
+      timeout: 2.5s
+
+  api:
+    image: openjdk:21
+    container_name: api
+    depends_on:
+      api-db:
+        condition: service_healthy
+    working_dir: /app
+    volumes:
+      - ./myapp.jar:/app/myapp.jar
+    command: [ "java", "-jar", "myapp.jar" ]
+    ports:
+      - "8081:8081"
+    restart: always
+    env_file:
+      - ./.env
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://api-db:5432/${API_POSTGRES_DB}
+      - SPRING_DATASOURCE_USERNAME=${API_POSTGRES_USER}
+      - SPRING_DATASOURCE_PASSWORD=${API_POSTGRES_PASSWORD}
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: pgadmin
+    restart: always
+    env_file:
+      - ./.env
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL}
+      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD}
+    ports:
+      - "5050:80"
+    depends_on:
+      - api-db
+    profiles:
+      - dev

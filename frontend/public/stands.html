@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Стенды | Управление стендами</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="styles.css">
+    <script src="../src/pages/access_guard.js"></script>
+</head>
+
+<body class="bg-gray-100 min-h-screen flex auth-loading">
+
+    <!-- 1. АДАПТИВНЫЙ САЙДБАР (Навигация) -->
+    <aside id="sidebar" class="w-64 bg-gray-800 text-white h-screen p-6 z-40 fixed md:static transform transition-transform duration-300 -translate-x-full md:translate-x-0">
+        <h1 class="text-xl font-bold mb-6">Навигация</h1>
+        <nav class="flex flex-col gap-3">
+            <!-- Главная -->
+            <a href="main.html" id="nav-main" class="hover:bg-gray-700 p-2 rounded flex items-center gap-2">
+                <img src="assets/main.svg" alt="Главная" class="w-10 h-10">
+                Главная
+            </a>
+            <!-- Добавить стенд -->
+            <a href="stands_add.html" id="nav-stands-add" class="hover:bg-gray-700 p-2 rounded flex items-center gap-2">
+                <img src="assets/stands_add.svg" alt="Добавить" class="w-10 h-10">
+                Добавить стенд
+            </a>
+            <!-- Стенды (Активная вкладка) -->
+            <a href="stands.html" id="nav-stands" class="p-2 rounded flex items-center gap-2 bg-yellow-400 text-black font-semibold">
+                <img src="assets/stands.svg" alt="Стенды" class="w-10 h-10">
+                Стенды
+            </a>
+            <!-- Скан -->
+            <a href="scan.html" class="hover:bg-gray-700 p-2 rounded flex items-center gap-2">
+                <img src="assets/scan.svg" alt="Скан" class="w-10 h-10">
+                Скан
+            </a>
+            <!-- Очередь -->
+            <a href="vueue.html" class="hover:bg-gray-700 p-2 rounded flex items-center gap-2">
+                <img src="assets/vueue.svg" alt="Очередь" class="w-10 h-10">
+                Очередь
+            </a>
+        </nav>
+    </aside>
+
+    <!-- 2. КОНТЕНТ СТРАНИЦЫ -->
+    <div id="content-wrapper" class="flex-1 flex flex-col h-screen">
+        
+        <!-- МОБИЛЬНАЯ ШАПКА С ГАМБУРГЕРОМ (Скрыта на ПК) -->
+        <header class="mobile-header p-4 flex items-center justify-between z-10 md:hidden">
+            <h1 class="text-xl font-bold text-gray-800">Т-Банк</h1>
+            <button id="menu-toggle" class="text-gray-800 focus:outline-none">
+                <!-- Иконка гамбургера -->
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </header>
+
+        <!-- ОСНОВНОЙ КОНТЕНТ СТРАНИЦЫ -->
+        <main class="flex-1 p-6 container-pad overflow-auto">
+            <h2 class="text-2xl font-bold mb-6 text-gray-800">СТЕНДЫ</h2>
+
+            <!-- СПИСОК СТЕНДОВ -->
+            <div id="standsList" class="space-y-4">
+                <!-- Стенд будет добавлен динамически -->
+                <div class="card container-pad">
+                    <p class="text-gray-500 italic" id="stands-placeholder">Загрузка стендов...</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- МОДАЛЬНОЕ ОКНО НАСТРОЕК -->
+    <div id="settingsModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-xl font-bold text-gray-800">НАСТРОЙКИ СТЕНДА</h3>
+                    <button id="closeSettings" class="text-gray-500 hover:text-gray-700">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+
+                <form id="settingsForm" class="space-y-5">
+                    <div>
+                        <label class="block mb-1 font-medium">НАЗВАНИЕ СТЕНДА</label>
+                        <input type="text" name="title" placeholder="Введите название" 
+                               class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-yellow-400">
+                    </div>
+
+                    <div>
+                        <label class="block mb-1 font-medium">ОТВЕТСТВЕННЫЙ ЗА СТЕНД</label>
+                        <input type="text" name="owner" placeholder="ФИО сотрудника" 
+                               class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-yellow-400">
+                    </div>
+
+    
+                        <div>
+                            <label class="block mb-1 font-medium">ВИД ИГРОВОЙ АКТИВНОСТИ</label>
+                            <select name="activity" 
+                                    class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-yellow-400">
+                                <option value="GAME_PC">Компьютерная игра</option>
+                                <option value="GAME_BOARD">Настольная игра</option>
+                                <option value="VR_AR">VR/AR стенд</option>
+                                <option value="MASTERCLASS">Мастер-класс/лекция</option>
+                                <option value="QUIZ_QUEST">Викторина или квест</option>
+                                <option value="PHOTO_ZONE">Фотозона/интерактив</option>
+                            </select>
+                        </div>
+            
+
+
+                    <div>
+                        <label class="block mb-1 font-medium">ДАТА МЕРОПРИЯТИЯ</label>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div>
+                                <label class="block mb-1 text-sm text-gray-500">ДАТА</label>
+                                <input type="date" name="date" required
+                                       class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-yellow-400">
+                            </div>
+                            <div>
+                                <label class="block mb-1 text-sm text-gray-500">ВРЕМЯ НАЧАЛА</label>
+                                <input type="time" name="start_time" required
+                                       class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-yellow-400">
+                            </div>
+                            <div>
+                                <label class="block mb-1 text-sm text-gray-500">ВРЕМЯ КОНЦА</label>
+                                <input type="time" name="end_time" required
+                                       class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-yellow-400">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block mb-1 font-medium">МАКСИМУМ УЧАСТНИКОВ</label>
+                        <input type="number" name="count" min="1" value="1"
+                               class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-yellow-400">
+                    </div>
+
+                    <div class="flex gap-4 pt-4">
+                        <button type="submit" class="flex-1 bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-3 rounded-lg transition">
+                            СОХРАНИТЬ ИЗМЕНЕНИЯ
+                        </button>
+                        <button type="button" id="deleteStand" class="flex-1 bg-red-500 hover:bg-red-600 text-white font-bold py-3 rounded-lg transition">
+                            УДАЛИТЬ СТЕНД
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- ПОДКЛЮЧЕНИЕ СКРИПТОВ -->
+    <script src="../src/pages/stand_selector.js" defer></script>
+    <script src="../src/pages/stands.js" defer></script>
+    <script src="../src/pages/mobile_menu.js" defer></script>
+</body>
+</html>

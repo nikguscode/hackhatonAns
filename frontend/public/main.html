@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Главная | Админ-панель</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+    <script src="../src/pages/access_guard.js"></script>
+</head>
+
+<!-- Body: Всегда flex, чтобы aside и div.flex-1 работали вместе -->
+<body class="bg-gray-100 min-h-screen flex auth-loading">
+    <!-- 1. АДАПТИВНЫЙ САЙДБАР (Навигация) -->
+    <!-- Мобильный: fixed, скрыт (-translate-x-full). ПК (>=md): статичен, всегда виден (md:static md:translate-x-0) -->
+    <aside id="sidebar" class="w-64 bg-gray-800 text-white h-screen p-6 z-40 fixed md:static transform transition-transform duration-300 -translate-x-full md:translate-x-0">
+        <h1 class="text-xl font-bold mb-6">Навигация</h1>
+        <nav class="flex flex-col gap-3">
+            <!-- Главная (Активная вкладка) -->
+            <a href="main.html" id="nav-main" class="p-2 rounded flex items-center gap-2 bg-yellow-400 text-black font-semibold">
+                <img src="assets/main.svg" alt="Главная" class="w-10 h-10">
+                Главная
+            </a>
+            <!-- Добавить стенд -->
+            <a href="stands_add.html" id="nav-stands-add" class="hover:bg-gray-700 p-2 rounded flex items-center gap-2">
+                <img src="assets/stands_add.svg" alt="Добавить" class="w-10 h-10">
+                Добавить стенд
+            </a>
+            <!-- Стенды -->
+            <a href="stands.html" id="nav-stands" class="hover:bg-gray-700 p-2 rounded flex items-center gap-2">
+                <img src="assets/stands.svg" alt="Стенды" class="w-10 h-10">
+                Стенды
+            </a>
+            <!-- Скан -->
+            <a href="scan.html" class="hover:bg-gray-700 p-2 rounded flex items-center gap-2">
+                <img src="assets/scan.svg" alt="Скан" class="w-10 h-10">
+                Скан
+            </a>
+            <!-- Очередь -->
+            <a href="vueue.html" class="hover:bg-gray-700 p-2 rounded flex items-center gap-2">
+                <img src="assets/vueue.svg" alt="Очередь" class="w-10 h-10">
+                Очередь
+            </a>
+        </nav>
+        
+        <!-- СЕЛЕКТОР СТЕНДА ДЛЯ СУПЕРАДМИНА -->
+        <div id="standSelector" class="mt-8 pt-6 border-t border-gray-600 hidden">
+            <div class="space-y-3">
+                <label class="block text-sm font-medium text-gray-300">Выберите стенд:</label>
+                <select id="standSelect" class="w-full bg-gray-700 text-white border border-gray-600 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400">
+                    <option value="">Загрузка стендов...</option>
+                </select>
+                <div id="selectedStandInfo" class="text-xs text-gray-400 hidden">
+                    <p id="selectedStandName">-</p>
+                    <p id="selectedStandOwner">-</p>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- 2. КОНТЕНТ СТРАНИЦЫ -->
+    <div id="content-wrapper" class="flex-1 flex flex-col h-screen">
+        
+        <!-- МОБИЛЬНАЯ ШАПКА С ГАМБУРГЕРОМ (Скрыта на ПК) -->
+        <header class="mobile-header p-4 flex items-center justify-between z-10 md:hidden">
+            <h1 class="text-xl font-bold text-gray-800">Т-Банк</h1>
+            <button id="menu-toggle" class="text-gray-800 focus:outline-none">
+                <!-- Иконка гамбургера -->
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </header>
+
+        <!-- ОСНОВНОЙ КОНТЕНТ СТРАНИЦЫ -->
+        <main class="flex-1 p-6 container-pad overflow-auto">
+            <h2 class="text-2xl font-bold mb-6 text-gray-800">ГЛАВНАЯ</h2>
+            <div class="card container-pad rounded-lg shadow-xl">
+                <h3 class="text-xl font-semibold mb-6 text-gray-700">АКТИВНОСТЬ НА НЕДАВНИХ МЕРОПРИЯТИЯХ</h3>
+                
+                <div class="w-full h-96">
+                    <canvas id="activityChart"></canvas>
+                </div>
+
+                <div id="statsContainer" class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="p-4 bg-gray-50 rounded-lg border-l-4 border-yellow-400">
+                        <p class="text-gray-500">Всего участников</p>
+                        <p id="totalParticipants" class="text-2xl font-bold text-gray-800">---</p>
+                    </div>
+                    <div class="p-4 bg-gray-50 rounded-lg border-l-4 border-yellow-400">
+                        <p class="text-gray-500">Среднее время ожидания</p>
+                        <p id="avgWaitTime" class="text-2xl font-bold text-gray-800">---</p>
+                    </div>
+                    <div class="p-4 bg-gray-50 rounded-lg border-l-4 border-yellow-400">
+                        <p class="text-gray-500">Пиковая очередь</p>
+                        <p id="peakQueue" class="text-2xl font-bold text-gray-800">---</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- ПОДКЛЮЧЕНИЕ СКРИПТОВ -->
+    <script src="../src/pages/stand_selector.js" defer></script>
+    <script src="../src/pages/main.js" defer></script>
+    <script src="../src/pages/mobile_menu.js" defer></script>
+</body>
+</html>

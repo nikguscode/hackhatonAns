@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.31.xsd">
+  <include file="000-create-table-stand.sql" relativeToChangelogFile="true"/>
+  <include file="001-recreate-table-stand.sql" relativeToChangelogFile="true"/>
+  <include file="002-create-table-machine.sql" relativeToChangelogFile="true"/>
+  <include file="003-create-table-employee.sql" relativeToChangelogFile="true"/>
+  <include file="004-alter-table-stand.sql" relativeToChangelogFile="true"/>
+  <include file="005-recreate-table-stand.sql" relativeToChangelogFile="true"/>
+  <include file="006-recreate-table-employee.sql" relativeToChangelogFile="true"/>
+  <include file="007-recreate-table-stand.sql" relativeToChangelogFile="true"/>
+  <include file="008-create-enum-employee-role.sql" relativeToChangelogFile="true"/>
+  <include file="009-add-column-in-employee-table.sql" relativeToChangelogFile="true"/>
+  <include file="010-recreate-enum-employee-role.sql" relativeToChangelogFile="true"/>
+  <include file="011-create-enum-activity-type.sql" relativeToChangelogFile="true"/>
+  <include file="012-recreate-table-stand.sql" relativeToChangelogFile="true"/>
+  <include file="013-alter-employee-stand-id-nullable.sql" relativeToChangelogFile="true"/>
+  <include file="014-init-default-values.sql" relativeToChangelogFile="true"/>
+  <include file="015-create-enum-queue-entry-status.sql" relativeToChangelogFile="true"/>
+  <include file="016-create-table-queue-entry.sql" relativeToChangelogFile="true"/>
+  <include file="017-recreate-table-machine.sql" relativeToChangelogFile="true"/>
+  <include file="018-recreate-table-machine.sql" relativeToChangelogFile="true"/>
+</databaseChangeLog>

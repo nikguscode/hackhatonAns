@@ -1,0 +1,45 @@
+/* Base design tokens */
+:root {
+  --color-bg: #f3f4f6; /* gray-100 */
+  --color-surface: #ffffff;
+  --color-text: #1f2937; /* gray-800 */
+  --color-text-muted: #6b7280; /* gray-500 */
+  --color-accent: #facc15; /* yellow-400 */
+  --color-accent-hover: #f59e0b; /* yellow-500 */
+  --color-sidebar: #1f2937; /* gray-800 */
+}
+
+/* Font */
+html { font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji"; }
+
+/* Page layout */
+body { background-color: var(--color-bg); }
+
+/* Sidebar unification */
+#sidebar { background-color: var(--color-sidebar); }
+#sidebar h1 { color: #fff; }
+#sidebar a { color: #fff; }
+#sidebar a.active { background-color: var(--color-accent); color: #000; font-weight: 600; }
+
+/* Mobile header */
+.mobile-header { background: var(--color-surface); box-shadow: 0 1px 2px rgba(0,0,0,0.06); }
+
+/* Card */
+.card { background: var(--color-surface); border-radius: 0.5rem; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.1); }
+
+/* Buttons */
+.btn-primary { background: var(--color-accent); color: #000; font-weight: 700; }
+.btn-primary:hover { background: var(--color-accent-hover); }
+
+/* Consistent paddings */
+.container-pad { padding: 1.5rem; }
+.section-gap { margin-bottom: 1.5rem; }
+
+.auth-loading {
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out; 
+}
+
+.auth-loaded {
+    opacity: 1 !important;
+}

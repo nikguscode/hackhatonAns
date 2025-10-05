@@ -1,0 +1,5 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5434/${API_POSTGRES_DB}
+    username: ${API_POSTGRES_USER}
+    password: ${API_POSTGRES_PASSWORD}

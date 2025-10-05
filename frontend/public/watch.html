@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вахта | Управление игрой</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="styles.css">
+    <script src="../src/pages/access_guard.js"></script>
+</head>
+<body class="flex bg-gray-100 h-screen">
+
+    <!-- АДАПТИВНЫЙ САЙДБАР -->
+    <aside id="sidebar" class="w-64 bg-gray-800 text-white h-screen p-6 fixed md:static transform -translate-x-full md:translate-x-0 transition-transform duration-300 z-40">
+        <h1 class="text-xl font-bold mb-6">Навигация</h1>
+        <nav class="flex flex-col gap-3">
+            <a href="main.html" id="nav-main" class="hover:bg-gray-700 p-2 rounded flex items-center gap-2">
+                <img src="assets/main.svg" alt="Главная" class="w-10 h-10">
+                Главная
+            </a>
+            <a href="stands_add.html" id="nav-stands-add" class="hover:bg-gray-700 p-2 rounded flex items-center gap-2">
+                <img src="assets/stands_add.svg" alt="Добавить" class="w-10 h-10">
+                Добавить стенд
+            </a>
+            <a href="stands.html" id="nav-stands" class="hover:bg-gray-700 p-2 rounded flex items-center gap-2">
+                <img src="assets/stands.svg" alt="Стенды" class="w-10 h-10">
+                Стенды
+            </a>
+            <a href="scan.html" class="hover:bg-gray-700 p-2 rounded flex items-center gap-2">
+                <img src="assets/scan.svg" alt="Скан" class="w-10 h-10">
+                Скан
+            </a>
+            <a href="vueue.html" class="hover:bg-gray-700 p-2 rounded flex items-center gap-2">
+                <img src="assets/vueue.svg" alt="Очередь" class="w-10 h-10">
+                Очередь
+            </a>
+        </nav>
+        
+        <!-- СЕЛЕКТОР СТЕНДА ДЛЯ СУПЕРАДМИНА -->
+        <div id="standSelector" class="mt-8 pt-6 border-t border-gray-600 hidden">
+            <div class="space-y-3">
+                <label class="block text-sm font-medium text-gray-300">Выберите стенд:</label>
+                <select id="standSelect" class="w-full bg-gray-700 text-white border border-gray-600 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400">
+                    <option value="">Загрузка стендов...</option>
+                </select>
+                <div id="selectedStandInfo" class="text-xs text-gray-400 hidden">
+                    <p id="selectedStandName">-</p>
+                    <p id="selectedStandOwner">-</p>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Мобильная шапка с гамбургером -->
+    <header class="mobile-header p-4 flex items-center justify-between md:hidden w-full fixed z-30">
+        <h1 class="text-xl font-bold text-gray-800">Админ-панель</h1>
+        <button id="menu-toggle" class="text-gray-800 focus:outline-none">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                 xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+        </button>
+    </header>
+
+    <!-- КОНТЕНТ -->
+    <main class="flex-1 p-6 mt-0 container-pad overflow-auto">
+        <h2 class="text-2xl font-bold mb-6 text-gray-800">ВАХТА</h2>
+
+        <div class="flex-1 grid grid-cols-1 md:grid-cols-3 gap-6">
+
+            <div class="md:col-span-2 p-4 card rounded-lg shadow-md">
+                <h3 class="text-xl font-semibold mb-4 text-gray-600">НЕАКТИВНЫЕ УЧАСТНИКИ</h3>
+
+                <div id="inactiveList" class="space-y-3">
+                    <p class="text-gray-500 italic" id="inactive-placeholder">Загрузка данных...</p>
+                </div>
+
+                <button id="endGameButton"
+                        class="w-full mt-8 bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-4 rounded-lg transition duration-200 shadow-lg">
+                    ЗАВЕРШИТЬ МЕРОПРИЯТИЕ
+                </button>
+            </div>
+
+            <div class="p-4 bg-gray-700 rounded-lg shadow-md flex flex-col justify-start items-start h-40">
+                <h3 class="text-xl font-semibold mb-3 text-white">ЧАТ ПОДДЕРЖКИ</h3>
+                <a href="https://t.me/YourSupportChat" target="_blank"
+                   class="flex items-center gap-2 text-yellow-400 hover:text-yellow-300 transition">
+                   <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor"><path d="M22 2L3 11.5l6 2.5 13-9.5-10 11 2 5 3-3 5-5-5-5-1-1 1-1z"/></svg>
+                   <span>https://t.me/YourSupportChat</span>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <script src="../src/pages/stand_selector.js" defer></script>
+    <script src="../src/pages/watch.js" defer></script>
+    <script src="../src/pages/mobile_menu.js" defer></script>
+</body>
+</html>

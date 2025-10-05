@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Скан | Регистрация</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="../src/pages/access_guard.js"></script>
+</head>
+
+<!-- Body: Всегда flex, чтобы aside и div.flex-1 работали вместе на ПК -->
+<body class="bg-gray-100 min-h-screen flex">
+
+    <!-- 1. АДАПТИВНЫЙ САЙДБАР (Навигация) -->
+    <!-- Мобильный: fixed, скрыт (-translate-x-full). ПК (>=md): статичен, всегда виден (md:static md:translate-x-0) -->
+    <aside id="sidebar" class="w-64 bg-gray-800 text-white h-screen p-6 z-40 fixed md:static transform transition-transform duration-300 -translate-x-full md:translate-x-0">
+        <h1 class="text-xl font-bold mb-6">Навигация</h1>
+        <nav class="flex flex-col gap-3">
+            <!-- Главная -->
+            <a href="main.html" id="nav-main" class="hover:bg-gray-700 p-2 rounded flex items-center gap-2">
+                <img src="assets/main.svg" alt="Главная" class="w-10 h-10">
+                Главная
+            </a>
+            <!-- Добавить стенд -->
+            <a href="stands_add.html" id="nav-stands-add" class="hover:bg-gray-700 p-2 rounded flex items-center gap-2">
+                <img src="assets/stands_add.svg" alt="Добавить" class="w-10 h-10">
+                Добавить стенд
+            </a>
+            <!-- Стенды -->
+            <a href="stands.html" id="nav-stands" class="hover:bg-gray-700 p-2 rounded flex items-center gap-2">
+                <img src="assets/stands.svg" alt="Стенды" class="w-10 h-10">
+                Стенды
+            </a>
+            <!-- Скан (Активная вкладка) -->
+            <a href="scan.html" class="p-2 rounded flex items-center gap-2 bg-yellow-400 text-black font-semibold">
+                <img src="assets/scan.svg" alt="Скан" class="w-10 h-10">
+                Скан
+            </a>
+            <!-- Очередь -->
+            <a href="vueue.html" class="hover:bg-gray-700 p-2 rounded flex items-center gap-2">
+                <img src="assets/vueue.svg" alt="Очередь" class="w-10 h-10">
+                Очередь
+            </a>
+
+        </nav>
+        
+        <!-- СЕЛЕКТОР СТЕНДА ДЛЯ СУПЕРАДМИНА -->
+        <div id="standSelector" class="mt-8 pt-6 border-t border-gray-600 hidden">
+            <div class="space-y-3">
+                <label class="block text-sm font-medium text-gray-300">Выберите стенд:</label>
+                <select id="standSelect" class="w-full bg-gray-700 text-white border border-gray-600 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400">
+                    <option value="">Загрузка стендов...</option>
+                </select>
+                <div id="selectedStandInfo" class="text-xs text-gray-400 hidden">
+                    <p id="selectedStandName">-</p>
+                    <p id="selectedStandOwner">-</p>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- 2. КОНТЕНТ СТРАНИЦЫ -->
+    <div id="content-wrapper" class="flex-1 flex flex-col h-screen">
+        
+        <!-- МОБИЛЬНАЯ ШАПКА С ГАМБУРГЕРОМ (Скрыта на ПК) -->
+        <header class="mobile-header p-4 flex items-center justify-between z-10 md:hidden">
+            <h1 class="text-xl font-bold text-gray-800">Т-Банк</h1>
+            <button id="menu-toggle" class="text-gray-800 focus:outline-none">
+                <!-- Иконка гамбургера -->
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </header>
+
+        <!-- ОСНОВНОЙ КОНТЕНТ СТРАНИЦЫ -->
+        <main class="flex-1 p-6 container-pad overflow-auto">
+            <h2 class="text-2xl font-bold mb-8 text-gray-800">СКАН</h2>
+
+            <!-- QR-код контейнер -->
+            <div class="flex justify-center items-center min-h-[60vh]">
+                <div class="card container-pad rounded-2xl shadow-2xl text-center max-w-2xl w-full">
+                    <h3 class="text-2xl font-bold mb-8 text-gray-700">QR-КОД ДЛЯ РЕГИСТРАЦИИ В ОЧЕРЕДИ</h3>
+
+                    <!-- QR-код контейнер -->
+                    <div class="flex justify-center mb-6">
+                        <div id="qrcode" class="bg-white p-6 rounded-xl shadow-lg border-2 border-gray-100">
+                            <div class="flex items-center justify-center w-80 h-80">
+                                <div class="animate-pulse text-gray-400">
+                                    <svg class="w-16 h-16 mx-auto mb-4" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd" />
+                                    </svg>
+                                    <p class="text-lg">Загрузка QR-кода...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Информация о ссылке -->
+                    <div id="qrLinkDisplay" class="hidden">
+                        <p class="text-sm text-gray-500 mb-2">Ссылка для регистрации:</p>
+                        <p class="text-xs text-gray-400 break-all bg-gray-50 p-3 rounded-lg" id="qrLinkText"></p>
+                    </div>
+                    
+                    <!-- Сообщение об ошибке -->
+                    <div class="text-sm text-red-500 mt-4 hidden" id="error-message">
+                        <div class="bg-red-50 border border-red-200 rounded-lg p-4">
+                            <p class="font-medium">Ошибка генерации QR-кода</p>
+                            <p id="error-text"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- ПОДКЛЮЧЕНИЕ СКРИПТОВ -->
+    <script src="../src/pages/scan.js" defer></script>
+    <script src="../src/pages/mobile_menu.js" defer></script>
+</body>
+</html>

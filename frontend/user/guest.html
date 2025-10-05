@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <title>Т-Банк</title>
+  <style>
+    /* CSS для анимации зума QR-кода */
+    .qr-zoom-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.9);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        cursor: pointer;
+    }
+    .qr-zoom-overlay img {
+        max-width: 90vw;
+        max-height: 90vh;
+        transition: transform 0.3s ease-out;
+        transform: scale(1);
+    }
+  </style>
+</head>
+<body class="bg-gray-100 min-h-screen">
+  <div class="max-w-md mx-auto p-4 sm:p-6" id="mainContainer">
+    <header class="bg-yellow-400 p-4 sm:p-6 rounded-lg mb-4 sm:mb-6 text-center">
+      <h1 class="text-xl sm:text-2xl font-bold text-black">Т-Банк</h1>
+      <p class="text-xs sm:text-sm text-gray-700 mt-1 sm:mt-2">Система очередей</p>
+    </header>
+
+    <div class="bg-white p-4 sm:p-6 rounded-lg shadow-lg mb-4" id="faqSection">
+      <h2 class="text-base sm:text-lg font-semibold text-black mb-3 sm:mb-4">Часто задаваемые вопросы</h2>
+      <div class="space-y-2 sm:space-y-3" id="faqList">
+        <div class="faq-item cursor-pointer hover:bg-gray-50 p-2 sm:p-3 rounded transition-colors" data-question="1">
+          <p class="text-sm sm:text-base text-gray-800">Как добавиться в очередь?</p>
+          <p class="faq-answer text-xs text-gray-600 mt-1 hidden"></p>
+        </div>
+        <div class="faq-item cursor-pointer hover:bg-gray-50 p-2 sm:p-3 rounded transition-colors" data-question="2">
+          <p class="text-sm sm:text-base text-gray-800">Как узнать, когда начнется игра?</p>
+          <p class="faq-answer text-xs text-gray-600 mt-1 hidden"></p>
+        </div>
+        <div class="faq-item cursor-pointer hover:bg-gray-50 p-2 sm:p-3 rounded transition-colors" data-question="3">
+          <p class="text-sm sm:text-base text-gray-800">Можно ли отменить запись в очередь?</p>
+          <p class="faq-answer text-xs text-gray-600 mt-1 hidden"></p>
+        </div>
+        <div class="faq-item cursor-pointer hover:bg-gray-50 p-2 sm:p-3 rounded transition-colors" data-question="4">
+          <p class="text-sm sm:text-base text-gray-800">К кому обратиться за помощью?</p>
+          <p class="faq-answer text-xs text-gray-600 mt-1 hidden"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

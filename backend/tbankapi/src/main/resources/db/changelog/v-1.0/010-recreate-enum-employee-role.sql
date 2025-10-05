@@ -1,0 +1,9 @@
+--changeset nikguscode:recreate-enum-employee-role
+
+ALTER TABLE employee DROP COLUMN type;
+
+DROP TYPE IF EXISTS EMPLOYEE_TYPE;
+
+CREATE TYPE EMPLOYEE_ROLE AS ENUM ('VOLUNTEER', 'ADMIN');
+
+ALTER TABLE employee ADD COLUMN role EMPLOYEE_ROLE;

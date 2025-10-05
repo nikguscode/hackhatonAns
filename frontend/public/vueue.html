@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Редактирование очереди</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="styles.css">
+  <script src="../src/pages/access_guard.js"></script>
+</head>
+
+<body class="flex bg-gray-100 h-screen">
+
+  <!-- АДАПТИВНЫЙ САЙДБАР -->
+  <aside id="sidebar" class="w-64 bg-gray-800 text-white h-screen p-6 fixed md:static transform -translate-x-full md:translate-x-0 transition-transform duration-300 z-40">
+    <h1 class="text-xl font-bold mb-6">Навигация</h1>
+    <nav class="flex flex-col gap-3">
+      <a href="main.html" id="nav-main" class="hover:bg-gray-700 p-2 rounded flex items-center gap-2">
+        <img src="assets/main.svg" alt="Главная" class="w-10 h-10">
+        Главная
+      </a>
+      <a href="stands_add.html" id="nav-stands-add" class="hover:bg-gray-700 p-2 rounded flex items-center gap-2">
+        <img src="assets/stands_add.svg" alt="Добавить" class="w-10 h-10">
+        Добавить стенд
+      </a>
+      <a href="stands.html" id="nav-stands" class="hover:bg-gray-700 p-2 rounded flex items-center gap-2">
+        <img src="assets/stands.svg" alt="Стенды" class="w-10 h-10">
+        Стенды
+      </a>
+      <a href="scan.html" class="hover:bg-gray-700 p-2 rounded flex items-center gap-2">
+        <img src="assets/scan.svg" alt="Скан" class="w-10 h-10">
+        Скан
+      </a>
+      <a href="vueue.html" class="p-2 rounded flex items-center gap-2 bg-yellow-400 text-black font-semibold">
+        <img src="assets/vueue.svg" alt="Очередь" class="w-10 h-10">
+        Очередь
+      </a>
+    </nav>
+    
+    <!-- СЕЛЕКТОР СТЕНДА ДЛЯ СУПЕРАДМИНА -->
+    <div id="standSelector" class="mt-8 pt-6 border-t border-gray-600 hidden">
+      <div class="space-y-3">
+        <label class="block text-sm font-medium text-gray-300">Выберите стенд:</label>
+        <select id="standSelect" class="w-full bg-gray-700 text-white border border-gray-600 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400">
+          <option value="">Загрузка стендов...</option>
+        </select>
+        <div id="selectedStandInfo" class="text-xs text-gray-400 hidden">
+          <p id="selectedStandName">-</p>
+          <p id="selectedStandOwner">-</p>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Мобильная шапка с гамбургером -->
+  <header class="mobile-header p-4 flex items-center justify-between md:hidden w-full fixed z-30">
+    <h1 class="text-xl font-bold text-gray-800">Админ-панель</h1>
+    <button id="menu-toggle" class="text-gray-800 focus:outline-none">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+           xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M4 6h16M4 12h16M4 18h16"></path>
+      </svg>
+    </button>
+  </header>
+
+  <!-- КОНТЕНТ -->
+  <main class="flex-1 p-6 container-pad overflow-auto">
+    <h2 class="text-2xl font-bold mb-6 text-gray-800">РЕДАКТИРОВАНИЕ ОЧЕРЕДИ</h2>
+
+    <div class="flex flex-wrap gap-6">
+
+      <!-- ТЕКУЩАЯ ОЧЕРЕДЬ -->
+      <div class="w-full md:w-1/3 p-4 card rounded-lg shadow-md border-t-4 border-yellow-400">
+        <h3 class="text-xl font-semibold mb-4 text-gray-600">ТЕКУЩАЯ ОЧЕРЕДЬ</h3>
+        <div id="queueList" class="space-y-2">
+          <p class="text-gray-500 italic" id="queue-placeholder">Загрузка очереди...</p>
+        </div>
+      </div>
+
+      <!-- ТЕКУЩАЯ КОМАНДА И ОТСУТСТВУЮЩИЕ -->
+      <div class="flex-1 min-w-[300px] p-4 bg-gray-200 rounded-lg shadow-md">
+        <h3 class="text-xl font-semibold mb-3 text-gray-700">ТЕКУЩАЯ КОМАНДА</h3>
+        <div id="currentTeamList" class="space-y-2 mb-6 p-3 bg-white rounded">
+          <p class="text-gray-500 italic" id="team-placeholder">Нет активных участников.</p>
+        </div>
+
+        <h3 class="text-xl font-semibold mb-3 text-gray-700">ОТСУТСТВУЮЩИЕ УЧАСТНИКИ</h3>
+        <div id="missingList" class="space-y-2 mb-8 p-3 bg-white rounded">
+          <p class="text-gray-500 italic" id="missing-placeholder">Нет отсутствующих.</p>
+        </div>
+
+        <button id="startButton"
+                class="w-full bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-3 rounded-lg transition duration-200 shadow-lg">
+          НАЧАТЬ ИГРУ / ПРИГЛАСИТЬ СЛЕДУЮЩИХ
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <script src="../src/pages/stand_selector.js" defer></script>
+  <script src="../src/pages/vueue.js" defer></script>
+  <script src="../src/pages/mobile_menu.js" defer></script>
+</body>
+</html>
